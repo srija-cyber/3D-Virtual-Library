@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library of Infinity - 3D Virtual Library</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+
+<body>
+    <div id="container">
+        <div class="ui-overlay">
+            <nav class="floating-nav">
+                <div class="nav-item active" onclick="setActiveNav(this, 'home')">🏠 Home</div>
+                <div class="genre-dropdown">
+                    <div class="nav-item" onclick="toggleGenreDropdown()">📚 Genres ▼</div>
+                    <div class="dropdown-content" id="genreDropdown">
+                        <div class="dropdown-item" onclick="filterByGenre('all')">All Books</div>
+                        <div class="dropdown-item" onclick="filterByGenre('Classic Literature')">Classic Literature</div>
+                        <div class="dropdown-item" onclick="filterByGenre('Science Fiction')">Science Fiction</div>
+                        <div class="dropdown-item" onclick="filterByGenre('Fantasy')">Fantasy</div>
+                        <div class="dropdown-item" onclick="filterByGenre('Romance')">Romance</div>
+                        <div class="dropdown-item" onclick="filterByGenre('Dystopian Fiction')">Dystopian</div>
+                        <div class="dropdown-item" onclick="filterByGenre('Mystery')">Mystery</div>
+                        <div class="dropdown-item" onclick="filterByGenre('Horror')">Horror</div>
+                        <div class="dropdown-item" onclick="filterByGenre('Biography')">Biography</div>
+                    </div>
+                </div>
+                <div class="nav-item" onclick="toggleBookmarks()">📖 Bookmarks</div>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search books..." id="searchInput" oninput="searchBooks()">
+                    <span class="search-icon">🔍</span>
+                </div>
+            </nav>
+
+            <div class="welcome-panel">
+                <div class="welcome-title">📚 Library of Infinity</div>
+                <div class="controls">
+                    <strong>Controls:</strong><br>
+                    • WASD or Arrow Keys - Move<br>
+                    • Mouse - Look around<br>
+                    • Click books to read<br>
+                    • ESC - Close book
+                </div>
+            </div>
+
+            <div class="mode-toggle" onclick="toggleDayNight()">
+                🌙 Night Mode
+            </div>
+
+            <div class="music-toggle" onclick="toggleMusic()">
+                🎵 Music: OFF
+            </div>
+
+            <div class="ai-assistant" onclick="toggleAIAssistant()" title="AI Reading Assistant">
+                🤖
+            </div>
+
+            <div class="minimap">
+                <div class="minimap-title">Library Map</div>
+                <canvas id="minimapCanvas" width="196" height="120"></canvas>
+            </div>
+
+            <div class="crosshair"></div>
+
+            <div class="floating-tooltip" id="bookTooltip"></div>
+
+            <div class="book-info" id="bookInfo">
+                <button class="close-btn" onclick="closeBook()">&times;</button>
+                <div class="book-title" id="bookTitle">The Great Gatsby</div>
+                <div class="book-author" id="bookAuthor">by F. Scott Fitzgerald</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 43%"></div>
+                </div>
+                <div style="font-size: 14px; color: #ffd700; margin-bottom: 15px;">Reading Progress: <span id="progressText">43%</span></div>
+                <div class="book-summary" id="bookSummary">
+                    A classic American novel set in the summer of 1922, following the mysterious millionaire Jay Gatsby and his obsession with the beautiful Daisy Buchanan. A tale of love, wealth, and the American Dream in the Jazz Age.
+                </div>
+                <div class="book-actions">
+                    <button class="btn btn-primary" onclick="readMore()">📖 Read More</button>
+                    <button class="btn btn-secondary" onclick="addToBookmarks()">⭐ Bookmark</button>
+                    <button class="btn btn-secondary" onclick="recommendBook()">💬 Recommend</button>
+                </div>
+            </div>
+
+            <div class="bookmarks-sidebar" id="bookmarksSidebar">
+                <div class="bookmarks-header">
+                    <div class="bookmarks-title">📚 My Bookmarks</div>
+                    <button class="close-bookmarks" onclick="toggleBookmarks()">&times;</button>
+                </div>
+                <div class="bookmarks-list" id="bookmarksList">
+                    <div class="empty-bookmarks">No bookmarks yet. Click the bookmark button on any book to save it here!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio element for background music -->
+    <audio id="backgroundMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+</body>
+
+</html>
